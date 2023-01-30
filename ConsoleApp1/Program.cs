@@ -28,7 +28,22 @@ namespace MyApp
                 }*/
 
                 string badgeVegetarienne = vegetarienne ? " (V)" : "";
-                Console.WriteLine(nom + badgeVegetarienne + " - " + prix + "€");
+
+                string nomAfficher = FormatPremiereLettreMajuscules(nom);
+
+                Console.WriteLine(nomAfficher + badgeVegetarienne + " - " + prix + "€");
+            }
+
+            private static string FormatPremiereLettreMajuscules(string s)
+            {
+                if ((s == null) || (s.Length == 0))
+                    return s;
+                string minuscules = s.ToLower();
+                string majuscules = s.ToUpper();
+
+                string resultat = majuscules[0] + minuscules.Substring(1);
+
+                return resultat;
             }
         }
 
