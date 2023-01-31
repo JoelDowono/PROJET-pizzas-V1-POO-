@@ -9,7 +9,7 @@ namespace MyApp
         class Pizza
         {
             string nom;
-            float prix;
+            public float prix { get; private set; }
             bool vegetarienne;
             List<string> ingredients;
 
@@ -65,6 +65,8 @@ namespace MyApp
                 new Pizza("calzone", 12f, false, new List<string>{"tomate", "jambon", "persil", "fromage"}),
                 new Pizza("complète", 9.5f, false, new List<string>{"jambon", "oeuf", "fromage"}),
             };
+
+            pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
 
             foreach(var pizza in pizzas)
             {
