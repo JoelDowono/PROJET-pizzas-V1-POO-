@@ -2,16 +2,50 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyApp 
+namespace projet_pizza
 {
     internal class Program
     {
+        static int nbPizzasPersonnalisee = 0;
+
+        class PizzaPersonnalisee : Pizza
+        {
+            public PizzaPersonnalisee() : base("Personnalisée", 5, false, null)
+            {
+                nbPizzasPersonnalisee++;
+                nom = "Personnalisée " + nbPizzasPersonnalisee;
+                ingredients = new List<string>();
+
+                while (true)
+                {
+                    Console.Write("Rentrez un ingredient pour la pizza personnalisée " + nbPizzasPersonnalisee + " (ENTRER pour terminer) : ");
+                    var ingredient = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(ingredient))
+                    {
+                        break;
+                    }
+                    if (ingredients.Contains(ingredient))
+                    {
+                        Console.WriteLine("Erreur : cet ingredient est déjà présent dans la pizza.");
+                    }
+                    else
+                    {
+                        ingredients.Add(ingredient);
+                        Console.WriteLine(string.Join(", ", ingredients));
+                    }                    
+                    Console.WriteLine();
+                }
+
+                prix = 5 + ingredients.Count() * 1.5f;
+            }
+        }
+
         class Pizza
         {
-            string nom;
-            public float prix { get; private set; }
+            protected string nom;
+            public float prix { get; protected set; }
             public bool vegetarienne { get; private set; }
-            public List<string> ingredients { get; private set; }
+            public List<string> ingredients { get; protected set; }
 
             public Pizza(string nom, float prix, bool vegetarienne, List<string> ingredients)
             {
@@ -69,6 +103,8 @@ namespace MyApp
                 new Pizza("margarita", 8f, true, new List<string>{"sauce tomate", "mozzarella", "basilic"}),
                 new Pizza("calzone", 12f, false, new List<string>{"tomate", "jambon", "persil", "fromage"}),
                 new Pizza("complète", 9.5f, false, new List<string>{"jambon", "oeuf", "fromage"}),
+                new PizzaPersonnalisee(),
+                new PizzaPersonnalisee()
             };
 
             //pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
@@ -92,7 +128,7 @@ namespace MyApp
             }*/
 
             //pizzas = pizzas.Where(p => p.vegetarienne).ToList();
-            pizzas = pizzas.Where(p => p.ContientIngredient("jambon")).ToList();
+            //pizzas = pizzas.Where(p => p.ContientIngredient("tomate")).ToList();
 
             foreach(var pizza in pizzas)
             {
