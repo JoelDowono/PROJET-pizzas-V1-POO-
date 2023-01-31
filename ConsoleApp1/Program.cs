@@ -10,7 +10,7 @@ namespace MyApp
         {
             string nom;
             public float prix { get; private set; }
-            bool vegetarienne;
+            public bool vegetarienne { get; private set; }
             List<string> ingredients;
 
             public Pizza(string nom, float prix, bool vegetarienne, List<string> ingredients)
@@ -68,7 +68,7 @@ namespace MyApp
 
             //pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
 
-            Pizza pizzaPrixMin = null;
+            /*Pizza pizzaPrixMin = null;
             Pizza pizzaPrixMax = null;;
 
             pizzaPrixMin = pizzas[0];
@@ -84,17 +84,19 @@ namespace MyApp
                 {
                     pizzaPrixMax = pizza;
                 }
-            }
+            }*/
+
+            pizzas = pizzas.Where(p => !p.vegetarienne).ToList();
 
             foreach(var pizza in pizzas)
             {
                 pizza.Afficher();
             }
-            Console.WriteLine();
+            /*Console.WriteLine();
             Console.WriteLine("La pizza la moins chere est : ");
             pizzaPrixMin.Afficher();
             Console.WriteLine("La pizza la plus chere est : ");
-            pizzaPrixMax.Afficher();
+            pizzaPrixMax.Afficher();*/
         }
     }
 }
