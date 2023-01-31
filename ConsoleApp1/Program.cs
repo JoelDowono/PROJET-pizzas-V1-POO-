@@ -66,12 +66,35 @@ namespace MyApp
                 new Pizza("complète", 9.5f, false, new List<string>{"jambon", "oeuf", "fromage"}),
             };
 
-            pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
+            //pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
+
+            Pizza pizzaPrixMin = null;
+            Pizza pizzaPrixMax = null;;
+
+            pizzaPrixMin = pizzas[0];
+            pizzaPrixMax = pizzas[0];
+
+            foreach(var pizza in pizzas)
+            {
+                if(pizza.prix < pizzaPrixMin.prix)
+                {
+                    pizzaPrixMin = pizza;
+                }
+                if (pizza.prix > pizzaPrixMax.prix)
+                {
+                    pizzaPrixMax = pizza;
+                }
+            }
 
             foreach(var pizza in pizzas)
             {
                 pizza.Afficher();
             }
+            Console.WriteLine();
+            Console.WriteLine("La pizza la moins chere est : ");
+            pizzaPrixMin.Afficher();
+            Console.WriteLine("La pizza la plus chere est : ");
+            pizzaPrixMax.Afficher();
         }
     }
 }
