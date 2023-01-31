@@ -11,7 +11,7 @@ namespace MyApp
             string nom;
             public float prix { get; private set; }
             public bool vegetarienne { get; private set; }
-            List<string> ingredients;
+            public List<string> ingredients { get; private set; }
 
             public Pizza(string nom, float prix, bool vegetarienne, List<string> ingredients)
             {
@@ -51,6 +51,11 @@ namespace MyApp
 
                 return resultat;
             }
+
+            public bool ContientIngredient(string ingredient)
+            {
+                return ingredients.Where(i => i.ToLower().Contains(ingredient)).ToList().Count > 0;
+            }
         }
 
         static void Main(string[] args)
@@ -86,7 +91,8 @@ namespace MyApp
                 }
             }*/
 
-            pizzas = pizzas.Where(p => !p.vegetarienne).ToList();
+            //pizzas = pizzas.Where(p => p.vegetarienne).ToList();
+            pizzas = pizzas.Where(p => p.ContientIngredient("jambon")).ToList();
 
             foreach(var pizza in pizzas)
             {
