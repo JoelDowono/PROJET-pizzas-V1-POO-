@@ -33,8 +33,10 @@ namespace MyApp
 
                 string nomAfficher = FormatPremiereLettreMajuscules(nom);
 
+                var ingredientsAfficher = ingredients.Select(i => FormatPremiereLettreMajuscules(i)).ToList();
+
                 Console.WriteLine(nomAfficher + badgeVegetarienne + " - " + prix + "€");
-                Console.WriteLine(string.Join(", ", ingredients));
+                Console.WriteLine(string.Join(", ", ingredientsAfficher));
                 Console.WriteLine();
             }
 
@@ -68,7 +70,6 @@ namespace MyApp
             {
                 pizza.Afficher();
             }
-            Console.Clear();
         }
     }
 }
