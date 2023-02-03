@@ -92,7 +92,7 @@ namespace projet_pizza
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            var pizzas = new List<Pizza>() {
+            /*var pizzas = new List<Pizza>() {
                 new Pizza("4 fromages", 11.2f, true, new List<string>{"cantal", "mozzarella", "fromage de chèvre", "gruyère"}),
                 new Pizza("indienne", 10.5f, false, new List<string>{"curry", "mozzarella", "poulet", "poivron", "oignon", "coriandre"}),
                 new Pizza("mexicaine", 13f, false, new List<string>{"boef", "mozzarella", "maïs", "tomates", "oignon", "coriandre"}),
@@ -104,8 +104,10 @@ namespace projet_pizza
             };
 
             string json = JsonConvert.SerializeObject(pizzas);
-            //Console.WriteLine(json);
-            File.WriteAllText("pizzas.json", json);
+            File.WriteAllText("pizzas.json", json);*/
+
+            string json = File.ReadAllText("pizzas.json");
+            var pizzas = JsonConvert.DeserializeObject<List<Pizza>>(json);
 
             foreach(var pizza in pizzas)
             {
