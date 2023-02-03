@@ -92,6 +92,7 @@ namespace projet_pizza
         {
             Console.OutputEncoding = Encoding.UTF8;
 
+            var filename = "pizzas.json";
             /*var pizzas = new List<Pizza>() {
                 new Pizza("4 fromages", 11.2f, true, new List<string>{"cantal", "mozzarella", "fromage de chèvre", "gruyère"}),
                 new Pizza("indienne", 10.5f, false, new List<string>{"curry", "mozzarella", "poulet", "poivron", "oignon", "coriandre"}),
@@ -104,10 +105,27 @@ namespace projet_pizza
             };
 
             string json = JsonConvert.SerializeObject(pizzas);
-            File.WriteAllText("pizzas.json", json);*/
+            File.WriteAllText(filename, json);*/
+            string json = null;
+            try
+            {
+                json = File.ReadAllText(filename);
+            }
+            catch
+            {
+                Console.WriteLine("Erreur de la lecture du fichier : " + filename);
+                return;
+            }
 
-            string json = File.ReadAllText("pizzas.json");
-            var pizzas = JsonConvert.DeserializeObject<List<Pizza>>(json);
+            List<Pizza> pizzas = null;
+            try
+            {
+                pizzas = JsonConvert.DeserializeObject<List<Pizza>>(json);
+            }
+            catch
+            {
+                Console.WriteLine("Erreur : Les données json ne sont pas valide");
+            }
 
             foreach(var pizza in pizzas)
             {
