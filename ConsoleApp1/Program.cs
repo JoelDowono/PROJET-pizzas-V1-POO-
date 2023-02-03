@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -42,7 +43,7 @@ namespace projet_pizza
 
         class Pizza
         {
-            protected string nom;
+            public string nom { get; protected  set; }
             public float prix { get; protected set; }
             public bool vegetarienne { get; private set; }
             public List<string> ingredients { get; protected set; }
@@ -57,11 +58,6 @@ namespace projet_pizza
 
             public void Afficher()
             {
-                /*string badgeVegetarienne = " (V)";
-                if (!vegetarienne)
-                {
-                    badgeVegetarienne = "";
-                }*/
 
                 string badgeVegetarienne = vegetarienne ? " (V)" : "";
 
@@ -103,42 +99,18 @@ namespace projet_pizza
                 new Pizza("margarita", 8f, true, new List<string>{"sauce tomate", "mozzarella", "basilic"}),
                 new Pizza("calzone", 12f, false, new List<string>{"tomate", "jambon", "persil", "fromage"}),
                 new Pizza("complète", 9.5f, false, new List<string>{"jambon", "oeuf", "fromage"}),
-                new PizzaPersonnalisee(),
-                new PizzaPersonnalisee()
+                //new PizzaPersonnalisee(),
+                //new PizzaPersonnalisee()
             };
 
-            //pizzas = pizzas.OrderByDescending(p => p.prix).ToList();
-
-            /*Pizza pizzaPrixMin = null;
-            Pizza pizzaPrixMax = null;;
-
-            pizzaPrixMin = pizzas[0];
-            pizzaPrixMax = pizzas[0];
-
-            foreach(var pizza in pizzas)
-            {
-                if(pizza.prix < pizzaPrixMin.prix)
-                {
-                    pizzaPrixMin = pizza;
-                }
-                if (pizza.prix > pizzaPrixMax.prix)
-                {
-                    pizzaPrixMax = pizza;
-                }
-            }*/
-
-            //pizzas = pizzas.Where(p => p.vegetarienne).ToList();
-            //pizzas = pizzas.Where(p => p.ContientIngredient("tomate")).ToList();
+            string json = JsonConvert.SerializeObject(pizzas);
+            //Console.WriteLine(json);
+            File.WriteAllText("pizzas.json", json);
 
             foreach(var pizza in pizzas)
             {
                 pizza.Afficher();
             }
-            /*Console.WriteLine();
-            Console.WriteLine("La pizza la moins chere est : ");
-            pizzaPrixMin.Afficher();
-            Console.WriteLine("La pizza la plus chere est : ");
-            pizzaPrixMax.Afficher();*/
         }
     }
 }
