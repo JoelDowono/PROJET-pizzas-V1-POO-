@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace projet_pizza
@@ -88,12 +89,10 @@ namespace projet_pizza
             }
         }
 
-        static void Main(string[] args)
-        {
-            Console.OutputEncoding = Encoding.UTF8;
 
-            var filename = "pizzas.json";
-            /*var pizzas = new List<Pizza>() {
+        static List<Pizza> GetPizzasFromCode()
+        {
+            var pizzas = new List<Pizza>() {
                 new Pizza("4 fromages", 11.2f, true, new List<string>{"cantal", "mozzarella", "fromage de chèvre", "gruyère"}),
                 new Pizza("indienne", 10.5f, false, new List<string>{"curry", "mozzarella", "poulet", "poivron", "oignon", "coriandre"}),
                 new Pizza("mexicaine", 13f, false, new List<string>{"boef", "mozzarella", "maïs", "tomates", "oignon", "coriandre"}),
@@ -103,9 +102,12 @@ namespace projet_pizza
                 //new PizzaPersonnalisee(),
                 //new PizzaPersonnalisee()
             };
+            return pizzas;
+        }
 
-            string json = JsonConvert.SerializeObject(pizzas);
-            File.WriteAllText(filename, json);*/
+
+        static List<Pizza> GetPizzasFromFile(string filename)
+        {
             string json = null;
             try
             {
@@ -114,7 +116,7 @@ namespace projet_pizza
             catch
             {
                 Console.WriteLine("Erreur de la lecture du fichier : " + filename);
-                return;
+                return null;
             }
 
             List<Pizza> pizzas = null;
@@ -125,7 +127,46 @@ namespace projet_pizza
             catch
             {
                 Console.WriteLine("Erreur : Les données json ne sont pas valide");
+                return null;
             }
+            return pizzas;
+        }
+
+        static void GenerateJsonFile(List<Pizza> pizzas, string filename)
+        {
+            string json = JsonConvert.SerializeObject(pizzas);
+            File.WriteAllText(filename, json);
+        }
+
+        static List<Pizza> GetPizzasFromUrl(string url)
+        {
+            var webClient = new WebClient();
+            string json = webClient.DownloadString(url);
+
+            List<Pizza> pizzas = null;
+            try
+            {
+                pizzas = JsonConvert.DeserializeObject<List<Pizza>>(json);
+            }
+            catch
+            {
+                Console.WriteLine("Erreur : Les données json ne sont pas valide");
+                return null;
+            }
+            return pizzas;
+        }
+
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+
+            //var filename = "pizzas.json";
+
+            //var pizzas = GetPizzasFromCode();
+            //GenerateJsonFile(pizzas, filename);
+            //var pizzas = GetPizzasFromFile(filename);
+
+            var pizzas = GetPizzasFromUrl("https://codeavecjonathan.com/res/pizzas2.json");
 
             foreach(var pizza in pizzas)
             {
